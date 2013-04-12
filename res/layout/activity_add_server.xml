@@ -61,13 +61,6 @@
             android:hint="@string/add_server_password_hint"
             android:inputType="textPassword" />
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/add_server_add_button"
-            android:onClick="onAddButtonClick" />
-
     </LinearLayout>
 
 </RelativeLayout>

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,8 +32,8 @@ public class AddServerActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
-		return false;
+		getMenuInflater().inflate(R.menu.add_server, menu);
+		return true;
 	}
 
 	@Override
@@ -54,7 +53,7 @@ public class AddServerActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void onAddButtonClick(View v) {
+	public void onAddButtonClick(MenuItem m) {
 		EditText _serverName = (EditText) findViewById(R.id.editTextServerName);
 		EditText _serverHost = (EditText) findViewById(R.id.editTextServerHost);
 		EditText _serverPort = (EditText) findViewById(R.id.editTextServerPort);

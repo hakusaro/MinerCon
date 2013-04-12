@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -46,6 +49,21 @@ public class MainActivity extends Activity {
 		
 		ListView lv = (ListView) findViewById(R.id.serverListView);
 		lv.setAdapter(adapter);
+		
+		final ListView llv = lv;
+		final Activity activity = this;
+		lv.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View view, int position,
+					long id) {
+				String choice = (String) llv.getItemAtPosition(position);
+				Intent i = new Intent(activity, ServerManageActivity.class);
+				i.putExtra("serverName", choice);
+				startActivity(i);
+			}
+			
+		});
 	}
 
 	@Override
@@ -72,5 +90,7 @@ public class MainActivity extends Activity {
 		Intent i = new Intent(this, MainActivity.class);
 		startActivity(i);
 	}
+	
+	
 
 }
