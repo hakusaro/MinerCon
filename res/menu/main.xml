@@ -2,14 +2,15 @@
 
     <item 
         android:id="@+id/action_add_server"
-        android:orderInCategory="1000"
-        android:showAsAction="never"
-        android:title="@string/add_server"/>
+        android:orderInCategory="10"
+        android:showAsAction="always"
+        android:title="@string/add_server" android:icon="@drawable/ic_action_add" android:visible="true" android:enabled="true" android:onClick="onAddButtonClick"/>
     
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:orderInCategory="2"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+    <item android:id="@+id/action_delete_storage" android:title="@string/action_delete_storage" android:orderInCategory="100" android:onClick="onDeleteStorageClick"></item>
 
 </menu>

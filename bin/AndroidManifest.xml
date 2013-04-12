@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="me.shanked.nicatronTg.minercon.AddServerActivity"
+            android:label="@string/title_activity_add_server"
+            android:parentActivityName="me.shanked.nicatronTg.minercon.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.shanked.nicatronTg.minercon.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
