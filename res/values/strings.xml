@@ -14,9 +14,11 @@
     <string name="add_server_port_default">25575</string>
     <string name="action_delete_storage">Debug: Delete server storage</string>
     <string name="title_activity_server_manage">Manage Server</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="manage_server_players">Players</string>
+    <string name="manage_server_properties">Server Properties</string>
+    <string name="manage_server_console">Console</string>
     <string name="add_server_confirm_text">Add server</string>
+    <string name="title_activity_manage_server">Manage Server</string>
+    <string name="add_server_cancel">Cancel</string>
 
 </resources>

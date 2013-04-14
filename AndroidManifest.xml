@@ -7,6 +7,7 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -33,6 +34,14 @@
         <activity
             android:name="me.shanked.nicatronTg.minercon.ServerManageActivity"
             android:label="@string/title_activity_server_manage"
+            android:parentActivityName="me.shanked.nicatronTg.minercon.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="me.shanked.nicatronTg.minercon.MainActivity" />
+        </activity>
+        <activity
+            android:name="me.shanked.nicatronTg.minercon.ManageServer"
+            android:label="@string/title_activity_manage_server"
             android:parentActivityName="me.shanked.nicatronTg.minercon.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
