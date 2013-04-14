@@ -32,13 +32,19 @@ public final class R {
         public static final int action_delete_storage=0x7f08000d;
         public static final int action_settings=0x7f08000c;
         public static final int add_server=0x7f080008;
+        public static final int ban=0x7f08000f;
         public static final int cancel_add_server=0x7f080009;
+        public static final int clear_inventory=0x7f080013;
         public static final int container=0x7f080005;
+        public static final int deop=0x7f080012;
         public static final int editTextServerHost=0x7f080001;
         public static final int editTextServerName=0x7f080000;
         public static final int editTextServerPassword=0x7f080003;
         public static final int editTextServerPort=0x7f080002;
+        public static final int give_item=0x7f080010;
+        public static final int kick=0x7f08000e;
         public static final int no_players_online=0x7f080007;
+        public static final int op=0x7f080011;
         public static final int player_list_fragment=0x7f080006;
         public static final int refresh_player_list=0x7f08000a;
         public static final int serverListView=0x7f080004;
@@ -54,6 +60,7 @@ public final class R {
         public static final int current_players=0x7f070001;
         public static final int main=0x7f070002;
         public static final int manage_server=0x7f070003;
+        public static final int player_actions=0x7f070004;
     }
     public static final class string {
         public static final int action_delete_storage=0x7f05000b;
@@ -68,7 +75,13 @@ public final class R {
         public static final int add_server_server_host_hint=0x7f050006;
         public static final int add_server_server_name_hint=0x7f050005;
         public static final int app_name=0x7f050000;
+        public static final int ban_player=0x7f050016;
+        public static final int clear_inventory=0x7f05001a;
+        public static final int deop_player=0x7f050019;
+        public static final int give_item=0x7f050017;
+        public static final int give_op=0x7f050018;
         public static final int hello_world=0x7f050004;
+        public static final int kick_player=0x7f050015;
         public static final int manage_server_console=0x7f05000f;
         public static final int manage_server_players=0x7f05000d;
         public static final int manage_server_properties=0x7f05000e;

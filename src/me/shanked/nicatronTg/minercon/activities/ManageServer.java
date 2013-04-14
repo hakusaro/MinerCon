@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +24,9 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -121,6 +126,11 @@ public class ManageServer extends FragmentActivity implements
 	}
 
 	public static class CurrentPlayersFragment extends Fragment {
+
+		public CurrentPlayersFragment() {
+
+		}
+
 		@Override
 		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 			inflater.inflate(R.menu.current_players, menu);
@@ -140,10 +150,6 @@ public class ManageServer extends FragmentActivity implements
 					return true;
 				}
 			});
-		}
-
-		public CurrentPlayersFragment() {
-
 		}
 
 		@Override
@@ -171,7 +177,41 @@ public class ManageServer extends FragmentActivity implements
 				Bundle savedInstanceState) {
 			setHasOptionsMenu(true);
 			View root = inflater.inflate(R.layout.fragment_current_players, container, false);
+			registerForContextMenu(root.findViewById(R.id.player_list_fragment));
+			ListView lv = (ListView) root.findViewById(R.id.player_list_fragment);
+			lv.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> adapterView, View v,
+						int position, long id) {
+					v.showContextMenu();
+				}
+			});
+
 			return root;
+		}
+
+		@Override
+		public boolean onContextItemSelected(MenuItem item) {
+			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+			String playerName = ((TextView) info.targetView).getText().toString();
+
+			switch (item.getItemId()) {
+			case R.id.op:
+				new GivePlayerOperator().execute(playerName);
+				Toast.makeText(getActivity(), playerName + " is now an operator.", Toast.LENGTH_SHORT).show();
+				break;
+			}
+
+			return super.onContextItemSelected(item);
+		}
+
+		@Override
+		public void onCreateContextMenu(ContextMenu menu, View v,
+				ContextMenuInfo menuInfo) {
+			super.onCreateContextMenu(menu, v, menuInfo);
+			MenuInflater menuInflater = getActivity().getMenuInflater();
+			menuInflater.inflate(R.menu.player_actions, menu);
 		}
 
 		@Override
@@ -180,6 +220,22 @@ public class ManageServer extends FragmentActivity implements
 			getActivity().setProgressBarIndeterminateVisibility(true);
 
 			super.onActivityCreated(savedInstanceState);
+		}
+
+		class GivePlayerOperator extends AsyncTask<String, Void, Void> {
+
+			@Override
+			protected Void doInBackground(String... arg0) {
+				try {
+					if (rcon == null || rcon.isShutdown()) {
+						rcon = new RCon(server.getHost(), server.getPort(), server.getPassword().toCharArray());
+					}
+					rcon.op(arg0[0]);
+				} catch (Exception e) {
+				}
+				return null;
+			}
+
 		}
 
 		class GetPlayerList extends AsyncTask<Server, Void, String[]> {

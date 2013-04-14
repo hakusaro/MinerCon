@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/kick" android:title="@string/kick_player" android:orderInCategory="10"></item>
+    <item android:id="@+id/ban" android:title="@string/ban_player" android:orderInCategory="11"></item>
+    <item android:id="@+id/give_item" android:title="@string/give_item" android:orderInCategory="20"></item>
+    <item android:id="@+id/op" android:title="@string/give_op" android:orderInCategory="30"></item>
+    <item android:id="@+id/deop" android:title="@string/deop_player" android:orderInCategory="31"></item>
+    <item android:id="@+id/clear_inventory" android:title="@string/clear_inventory" android:orderInCategory="13"></item>
+    
+
+</menu>

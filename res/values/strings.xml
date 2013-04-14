@@ -22,5 +22,11 @@
     <string name="add_server_cancel">Cancel</string>
     <string name="player_list_no_players">No players online.</string>
     <string name="refresh">Refresh</string>
+    <string name="kick_player">Kick</string>
+    <string name="ban_player">Ban</string>
+    <string name="give_item">Give Item/Block</string>
+    <string name="give_op">Assign Server Operator</string>
+    <string name="deop_player">Revoke Server Operator</string>
+    <string name="clear_inventory">Clear Inventory</string>
 
 </resources>
