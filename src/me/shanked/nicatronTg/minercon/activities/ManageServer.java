@@ -201,6 +201,25 @@ public class ManageServer extends FragmentActivity implements
 				new GivePlayerOperator().execute(playerName);
 				Toast.makeText(getActivity(), playerName + " is now an operator.", Toast.LENGTH_SHORT).show();
 				break;
+			case R.id.deop:
+				new RevokePlayerOperator().execute(playerName);
+				Toast.makeText(getActivity(), playerName + " is no longer an operator.", Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.kick:
+				new KickPlayer().execute(playerName);
+				Toast.makeText(getActivity(), playerName + " was kicked.", Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.ban:
+				new BanPlayer().execute(playerName);
+				Toast.makeText(getActivity(), playerName + " was banned.", Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.clear_inventory:
+				new ClearInventory().execute(playerName);
+				Toast.makeText(getActivity(), playerName + " had their inventory cleared.", Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.give_item:
+				Toast.makeText(getActivity(), "Not implemented yet!!1!", Toast.LENGTH_SHORT).show();
+				break;
 			}
 
 			return super.onContextItemSelected(item);
@@ -220,6 +239,82 @@ public class ManageServer extends FragmentActivity implements
 			getActivity().setProgressBarIndeterminateVisibility(true);
 
 			super.onActivityCreated(savedInstanceState);
+		}
+		
+		class ClearInventory extends AsyncTask<String, Void, Void> {
+
+			@Override
+			protected Void doInBackground(String... params) {
+				try {
+					if (rcon == null || rcon.isShutdown()) {
+						rcon = new RCon(server.getHost(), server.getPort(), server.getPassword().toCharArray());
+					}
+					rcon.clearInventory(params[0]);
+				} catch (Exception e) {
+				}
+				return null;
+			}
+			
+		}
+		
+		class BanPlayer extends AsyncTask<String, Void, Void> {
+
+			@Override
+			protected Void doInBackground(String... params) {
+				try {
+					if (rcon == null || rcon.isShutdown()) {
+						rcon = new RCon(server.getHost(), server.getPort(), server.getPassword().toCharArray());
+					}
+					rcon.ban(params[0]);
+				} catch (Exception e) {
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+				new GetPlayerList().execute(server);
+			}
+			
+		}
+
+		class KickPlayer extends AsyncTask<String, Void, Void> {
+
+			@Override
+			protected Void doInBackground(String... params) {
+				try {
+					if (rcon == null || rcon.isShutdown()) {
+						rcon = new RCon(server.getHost(), server.getPort(), server.getPassword().toCharArray());
+					}
+					rcon.kick(params[0]);
+				} catch (Exception e) {
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+				new GetPlayerList().execute(server);
+			}
+
+		}
+
+		class RevokePlayerOperator extends AsyncTask<String, Void, Void> {
+
+			@Override
+			protected Void doInBackground(String... params) {
+				try {
+					if (rcon == null || rcon.isShutdown()) {
+						rcon = new RCon(server.getHost(), server.getPort(), server.getPassword().toCharArray());
+					}
+					rcon.deOp(params[0]);
+				} catch (Exception e) {
+				}
+				return null;
+			}
+
 		}
 
 		class GivePlayerOperator extends AsyncTask<String, Void, Void> {

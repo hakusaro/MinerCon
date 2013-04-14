@@ -211,6 +211,21 @@ public class RCon {
 	}
 
 	/**
+	 * Clears a player's inventory
+	 * 
+	 * @param player - The player to have their inventory cleared.
+	 * @throws AuthenticationException - Invalid password.
+	 * @throws IOException - I/O error.
+	 */
+	public void clearInventory(final String player) throws AuthenticationException, IOException {
+		final StringBuilder sb = new StringBuilder();
+		sb.append("clear");
+		sb.append(' ').append(player);
+		final String response = send(sb.toString());
+		assert "".equals(response);
+	}
+	
+	/**
 	 * Changes the game mode for player to Survival mode or Creative mode.
 	 * Remember, this will only affect player and no one else; it may confuse
 	 * others.
