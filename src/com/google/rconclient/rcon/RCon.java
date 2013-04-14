@@ -55,6 +55,8 @@ public class RCon {
 	 * socket. This means also the inputStream and outputStream.
 	 */
 	private final Object syncObject = new Object();
+	
+	private boolean shutdown = true;
 
 	/**
 	 * Create a new communication channel to MineCraft using the RCon protocol.
@@ -88,6 +90,11 @@ public class RCon {
 			passwordBytes[i] = 0;
 		}
 		assert response.length == 0;
+		shutdown = false;
+	}
+
+	public boolean isShutdown() {
+		return shutdown;
 	}
 
 	/**
@@ -180,6 +187,7 @@ public class RCon {
 		synchronized (syncObject) {
 			if (!socket.isClosed()) {
 				socket.close();
+				shutdown = true;
 			}
 		}
 	}

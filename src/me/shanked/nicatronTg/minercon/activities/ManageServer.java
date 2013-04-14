@@ -1,8 +1,12 @@
-package me.shanked.nicatronTg.minercon;
+package me.shanked.nicatronTg.minercon.activities;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import me.shanked.nicatronTg.minercon.R;
+import me.shanked.nicatronTg.minercon.Server;
+import me.shanked.nicatronTg.minercon.StorageMaintainer;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -35,12 +39,16 @@ public class ManageServer extends FragmentActivity implements
 
 	private static String serverName = "";
 
+	static ArrayList<AsyncTask<?, ?, ?>> runningAsyncTasks = null;
+	static RCon rcon = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);  
+		runningAsyncTasks = new ArrayList<AsyncTask<?, ?, ?>>();
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.activity_manage_server);
-		
+
 		final ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
@@ -95,12 +103,36 @@ public class ManageServer extends FragmentActivity implements
 
 		return true;
 	}
+	
+	public static void destroyAllRunningTasks() {
+		for (AsyncTask<?, ?, ?> asyncTask : runningAsyncTasks) {
+			asyncTask.cancel(true);
+		}
+	}
 
 	public static class CurrentPlayersFragment extends Fragment {
 		static String serverName = "";
 
 		public CurrentPlayersFragment() {
 
+		}
+
+		@Override
+		public void onDestroy() {
+			destroyAllRunningTasks();
+			try {
+				rcon.close();
+			} catch (IOException e) {}
+			super.onDestroy();
+		}
+
+		@Override
+		public void onDetach() {
+			destroyAllRunningTasks();
+			try {
+				rcon.close();
+			} catch (IOException e) {}
+			super.onDetach();
 		}
 
 		@Override
@@ -125,13 +157,13 @@ public class ManageServer extends FragmentActivity implements
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
-			new GetPlayerList().execute(server);
-			
+			runningAsyncTasks.add(new GetPlayerList().execute(server));
+
 			getActivity().setProgressBarIndeterminateVisibility(true);
-			
+
 			super.onActivityCreated(savedInstanceState);
 		}
-		
+
 		class GetPlayerList extends AsyncTask<Server, Void, String[]> {
 
 			@Override
@@ -139,9 +171,10 @@ public class ManageServer extends FragmentActivity implements
 				String players[] = null;
 				Server server = params[0];
 				try {
-					RCon rcon = new RCon(server.getHost(), server.getPort(), server.getPassword().toCharArray());
+					if (rcon == null || rcon.isShutdown()) {
+						rcon = new RCon(server.getHost(), server.getPort(), server.getPassword().toCharArray());
+					}
 					players = rcon.list();
-					rcon.close();
 				} catch (IOException e) {
 					return null;
 				} catch (AuthenticationException e) {
@@ -152,12 +185,20 @@ public class ManageServer extends FragmentActivity implements
 
 			@Override
 			protected void onPostExecute(String[] result) {
-				
+
 				if (result == null) {
 					Toast.makeText(CurrentPlayersFragment.this.getActivity(), "Unable to authenticate with server. Please verify that a connection is available and the server's connection information is correct.", Toast.LENGTH_LONG).show();
-					Intent i = new Intent(CurrentPlayersFragment.this.getActivity(), MainActivity.class);
+					Intent i = new Intent(CurrentPlayersFragment.this.getActivity(), ServerList.class);
 					startActivity(i);
 					return;
+				}
+
+				if (result.length == 0) {
+					// No players...
+				}
+				
+				for (int i = 0; i < result.length; i++) {
+					result[i] = result[i].replaceAll("[^\\x20-\\x7e]f", "");
 				}
 				
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, result);

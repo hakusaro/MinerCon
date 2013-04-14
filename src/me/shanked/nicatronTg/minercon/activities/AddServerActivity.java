@@ -1,7 +1,10 @@
-package me.shanked.nicatronTg.minercon;
+package me.shanked.nicatronTg.minercon.activities;
 
 import java.io.IOException;
 
+import me.shanked.nicatronTg.minercon.R;
+import me.shanked.nicatronTg.minercon.Server;
+import me.shanked.nicatronTg.minercon.StorageMaintainer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,13 +43,6 @@ public class AddServerActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		}
@@ -99,7 +95,7 @@ public class AddServerActivity extends Activity {
 			StorageMaintainer sm = new StorageMaintainer(this, "servers.json");
 			if (sm.storeNewServer(new Server(serverName, serverHost, serverPort, serverPassword))) {
 				Toast.makeText(this, "Server added.", Toast.LENGTH_SHORT).show();
-				Intent i = new Intent(this, MainActivity.class);
+				Intent i = new Intent(this, ServerList.class);
 				startActivity(i);
 			} else {
 				Toast.makeText(this, "Invalid server name. That particular one already exists.", Toast.LENGTH_SHORT).show();
@@ -117,7 +113,7 @@ public class AddServerActivity extends Activity {
 	}
 	
 	public void onCancelButtonClick(MenuItem m) {
-		Intent i = new Intent(this, MainActivity.class);
+		Intent i = new Intent(this, ServerList.class);
 		startActivity(i);
 	}
 

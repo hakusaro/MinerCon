@@ -1,7 +1,11 @@
-package me.shanked.nicatronTg.minercon;
+package me.shanked.nicatronTg.minercon.activities;
 
 import java.io.FileNotFoundException;
 
+import me.shanked.nicatronTg.minercon.R;
+import me.shanked.nicatronTg.minercon.Server;
+import me.shanked.nicatronTg.minercon.ServerStore;
+import me.shanked.nicatronTg.minercon.StorageMaintainer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,14 +17,17 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends Activity {
+public class ServerList extends Activity {
 
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		StorageMaintainer sm = new StorageMaintainer(this, "servers.json");
 		ServerStore serverStore = null;
+		
 		try {
 			serverStore = sm.readServers();
 		} catch (FileNotFoundException e) {
@@ -79,7 +86,7 @@ public class MainActivity extends Activity {
 	public void onDeleteStorageClick(MenuItem m) {
 		StorageMaintainer sm = new StorageMaintainer(this, "servers.json");
 		sm.clearStorage();
-		Intent i = new Intent(this, MainActivity.class);
+		Intent i = new Intent(this, ServerList.class);
 		startActivity(i);
 	}
 
