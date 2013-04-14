@@ -1,4 +1,4 @@
-# ![MinerCon Logo](https://raw.github.com/nicatronTg/MinerCon/master/ic_launcher-web.png) MinerCon
+# MinerCon
 
 A remote access client for Minecraft built in Java using Android.
 
@@ -12,7 +12,7 @@ License: GPL v3.
 
 ## Contributions
 
-* Until major functionality is complete, this project will not accept pull requests or suggestions. Hopefully, that shouldn't be too long now!
+Until major functionality is complete, this project will not accept pull requests or suggestions. Hopefully, that shouldn't be too long now!
 
 ## Open Source Licenses
 
