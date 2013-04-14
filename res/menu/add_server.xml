@@ -1,5 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item android:id="@+id/item1" android:title="@string/add_server_confirm_text" android:showAsAction="always" android:onClick="onAddButtonClick" android:orderInCategory="100" android:icon="@drawable/ic_action_tick"></item>
-    <item android:id="@+id/item2" android:title="@string/add_server_cancel" android:orderInCategory="150" android:icon="@drawable/ic_action_cancel" android:showAsAction="always" android:onClick="onCancelButtonClick"></item>
+    <item android:id="@+id/add_server" android:title="@string/add_server_confirm_text" android:showAsAction="always" android:onClick="onAddButtonClick" android:orderInCategory="100" android:icon="@drawable/ic_action_tick"></item>
+    <item android:id="@+id/cancel_add_server" android:title="@string/add_server_cancel" android:orderInCategory="150" android:icon="@drawable/ic_action_cancel" android:showAsAction="always" android:onClick="onCancelButtonClick"></item>
 
 </menu>

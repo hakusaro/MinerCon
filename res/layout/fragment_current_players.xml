@@ -13,4 +13,13 @@
         android:layout_height="match_parent" >
     </ListView>
 
+    <TextView
+        android:id="@+id/no_players_online"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:text="@string/player_list_no_players"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:visibility="invisible" />
+
 </RelativeLayout>

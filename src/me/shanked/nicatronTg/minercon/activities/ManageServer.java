@@ -8,7 +8,6 @@ import me.shanked.nicatronTg.minercon.R;
 import me.shanked.nicatronTg.minercon.Server;
 import me.shanked.nicatronTg.minercon.StorageMaintainer;
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,12 +16,15 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.rconclient.rcon.AuthenticationException;
@@ -37,11 +39,11 @@ public class ManageServer extends FragmentActivity implements
 	 */
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
-	private static String serverName = "";
+	private static Server server;
 
 	static ArrayList<AsyncTask<?, ?, ?>> runningAsyncTasks = null;
 	static RCon rcon = null;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,7 +61,18 @@ public class ManageServer extends FragmentActivity implements
 				getString(R.string.manage_server_properties),
 				getString(R.string.manage_server_console), }), this);
 
-		serverName = (String) getIntent().getExtras().getString("serverName");
+		String serverName = (String) getIntent().getExtras().getString("serverName");
+
+		StorageMaintainer sm = new StorageMaintainer(this, "servers.json");
+		try {
+			for (Server s : sm.readServers().getServers()) {
+				if (s.getName().equals(serverName)) {
+					server = s;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -95,15 +108,12 @@ public class ManageServer extends FragmentActivity implements
 
 		if (position == 0) {
 			Fragment fragment = new CurrentPlayersFragment();
-			Bundle args = new Bundle();
-			args.putString(CurrentPlayersFragment.serverName, serverName);
-			fragment.setArguments(args);
 			getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
 		}
 
 		return true;
 	}
-	
+
 	public static void destroyAllRunningTasks() {
 		for (AsyncTask<?, ?, ?> asyncTask : runningAsyncTasks) {
 			asyncTask.cancel(true);
@@ -111,7 +121,26 @@ public class ManageServer extends FragmentActivity implements
 	}
 
 	public static class CurrentPlayersFragment extends Fragment {
-		static String serverName = "";
+		@Override
+		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+			inflater.inflate(R.menu.current_players, menu);
+			super.onCreateOptionsMenu(menu, inflater);
+		}
+
+		@Override
+		public void onPrepareOptionsMenu(Menu menu) {
+			super.onPrepareOptionsMenu(menu);
+			MenuItem item = menu.findItem(R.id.refresh_player_list);
+			item.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+				@Override
+				public boolean onMenuItemClick(MenuItem m) {
+					destroyAllRunningTasks();
+					runningAsyncTasks.add(new GetPlayerList().execute(server));
+					getActivity().setProgressBarIndeterminateVisibility(true);
+					return true;
+				}
+			});
+		}
 
 		public CurrentPlayersFragment() {
 
@@ -122,7 +151,8 @@ public class ManageServer extends FragmentActivity implements
 			destroyAllRunningTasks();
 			try {
 				rcon.close();
-			} catch (IOException e) {}
+			} catch (IOException e) {
+			}
 			super.onDestroy();
 		}
 
@@ -131,34 +161,22 @@ public class ManageServer extends FragmentActivity implements
 			destroyAllRunningTasks();
 			try {
 				rcon.close();
-			} catch (IOException e) {}
+			} catch (IOException e) {
+			}
 			super.onDetach();
 		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
+			setHasOptionsMenu(true);
 			View root = inflater.inflate(R.layout.fragment_current_players, container, false);
-			serverName = getArguments().getString(serverName);
 			return root;
 		}
 
 		@Override
 		public void onActivityCreated(Bundle savedInstanceState) {
-			Activity activity = getActivity();
-			StorageMaintainer sm = new StorageMaintainer(activity, "servers.json");
-			Server server = null;
-			try {
-				for (Server s : sm.readServers().getServers()) {
-					if (s.getName().equals(serverName)) {
-						server = s;
-					}
-				}
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
 			runningAsyncTasks.add(new GetPlayerList().execute(server));
-
 			getActivity().setProgressBarIndeterminateVisibility(true);
 
 			super.onActivityCreated(savedInstanceState);
@@ -194,20 +212,23 @@ public class ManageServer extends FragmentActivity implements
 				}
 
 				if (result.length == 0) {
-					// No players...
+					ListView lv = (ListView) CurrentPlayersFragment.this.getActivity().findViewById(R.id.player_list_fragment);
+					lv.setVisibility(View.INVISIBLE);
+
+					TextView tv = (TextView) CurrentPlayersFragment.this.getActivity().findViewById(R.id.no_players_online);
+					tv.setVisibility(View.VISIBLE);
 				}
-				
+
 				for (int i = 0; i < result.length; i++) {
 					result[i] = result[i].replaceAll("[^\\x20-\\x7e]f", "");
 				}
-				
+
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, result);
 				ListView lv = (ListView) CurrentPlayersFragment.this.getActivity().findViewById(R.id.player_list_fragment);
 				lv.setAdapter(adapter);
 				CurrentPlayersFragment.this.getActivity().setProgressBarIndeterminateVisibility(false);
 			}
 		}
-
 	}
 
 }
