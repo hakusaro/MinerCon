@@ -78,6 +78,14 @@ public final class R {
         public static final int ban_player=0x7f050016;
         public static final int clear_inventory=0x7f05001a;
         public static final int deop_player=0x7f050019;
+        public static final int error_duplicate_server_name=0x7f050020;
+        public static final int error_invalid_server_port=0x7f05001f;
+        public static final int error_io_reinstall=0x7f050023;
+        public static final int error_no_server_host=0x7f05001c;
+        public static final int error_no_server_name=0x7f05001b;
+        public static final int error_no_server_password=0x7f05001e;
+        public static final int error_no_server_port=0x7f05001d;
+        public static final int error_npe_reinstall=0x7f050022;
         public static final int give_item=0x7f050017;
         public static final int give_op=0x7f050018;
         public static final int hello_world=0x7f050004;
@@ -87,6 +95,7 @@ public final class R {
         public static final int manage_server_properties=0x7f05000e;
         public static final int player_list_no_players=0x7f050013;
         public static final int refresh=0x7f050014;
+        public static final int server_added=0x7f050021;
         public static final int title_activity_add_server=0x7f050003;
         public static final int title_activity_manage_server=0x7f050011;
         public static final int title_activity_server_manage=0x7f05000c;

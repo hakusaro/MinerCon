@@ -28,5 +28,13 @@
     <string name="give_op">Assign Server Operator</string>
     <string name="deop_player">Revoke Server Operator</string>
     <string name="clear_inventory">Clear Inventory</string>
-
+    <string name="error_no_server_name">No server name specificed. Enter a valid one and try again.</string>
+	<string name="error_no_server_host">No server host specificed. Enter a valid one and try again.</string>
+	<string name="error_no_server_port">No server port specificed. Enter a valid one and try again.</string>
+	<string name="error_no_server_password">No server password specificed. Enter a valid one and try again.</string>
+	<string name="error_invalid_server_port">Invalid server port specified. Valid port must be a numerical value (usually 25575).</string>
+	<string name="error_duplicate_server_name">Invalid server name. That particular one already exists.</string>
+	<string name="server_added">Server added.</string>
+	<string name="error_npe_reinstall">NullPointerException during server store. Clear app data in Android application settings or reinstall.</string>
+	<string name="error_io_reinstall">IOException during server store. Clear app data in Android application settings or reinstall.</string>
 </resources>
