@@ -217,6 +217,8 @@ public class ManageServer extends FragmentActivity implements
 
 					TextView tv = (TextView) CurrentPlayersFragment.this.getActivity().findViewById(R.id.no_players_online);
 					tv.setVisibility(View.VISIBLE);
+					CurrentPlayersFragment.this.getActivity().setProgressBarIndeterminateVisibility(false);
+					return;
 				}
 
 				for (int i = 0; i < result.length; i++) {
@@ -226,6 +228,9 @@ public class ManageServer extends FragmentActivity implements
 				ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, result);
 				ListView lv = (ListView) CurrentPlayersFragment.this.getActivity().findViewById(R.id.player_list_fragment);
 				lv.setAdapter(adapter);
+				lv.setVisibility(View.VISIBLE);
+				TextView tv = (TextView) CurrentPlayersFragment.this.getActivity().findViewById(R.id.no_players_online);
+				tv.setVisibility(View.INVISIBLE);
 				CurrentPlayersFragment.this.getActivity().setProgressBarIndeterminateVisibility(false);
 			}
 		}
