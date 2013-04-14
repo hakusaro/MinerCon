@@ -25,20 +25,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="shanked.nicatronTg.minercon.activities.AddServerActivity"
+            android:name="me.shanked.nicatronTg.minercon.activities.AddServerActivity"
             android:label="@string/title_activity_add_server"
             android:parentActivityName="me.shanked.nicatronTg.minercon.activities.ServerList" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="me.shanked.nicatronTg.minercon.MainActivity" />
-        </activity>
-        <activity
-            android:name="me.shanked.nicatronTg.minercon.ServerManageActivity"
-            android:label="@string/title_activity_server_manage"
-            android:parentActivityName="me.shanked.nicatronTg.minercon.activities.ServerList" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="me.shanked.nicatronTg.minercon.MainActivity" />
+                android:value="me.shanked.nicatronTg.minercon.ServerList" />
         </activity>
         <activity
             android:name="me.shanked.nicatronTg.minercon.activities.ManageServer"
