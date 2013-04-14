@@ -4,3 +4,9 @@
 *.jar
 *.war
 *.ear
+
+# APKs #
+*.apk
+
+# Binary Folder #
+bin/
