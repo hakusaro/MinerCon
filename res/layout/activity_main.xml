@@ -8,13 +8,32 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ServerList" >
 
-    <ListView
-        android:id="@+id/serverListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" >
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
-    </ListView>
+        <TextView
+            android:id="@+id/server_list_header"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/server_list_header" />
+
+        <ListView
+            android:id="@+id/server_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </ListView>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/no_servers_added"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:text="@string/no_servers_added"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:visibility="invisible" />
 
 </RelativeLayout>

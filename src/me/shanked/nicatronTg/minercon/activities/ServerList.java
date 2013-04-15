@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class ServerList extends Activity {
 
@@ -31,14 +32,14 @@ public class ServerList extends Activity {
 		try {
 			serverStore = sm.readServers();
 		} catch (FileNotFoundException e) {
-			String[] testItems = { "No servers defined.",
-					"Press the add button (top right) to add one." };
-
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, testItems);
-
-			ListView lv = (ListView) findViewById(R.id.serverListView);
-
-			lv.setAdapter(adapter);
+			ListView lv = (ListView) findViewById(R.id.server_list);
+			lv.setVisibility(View.INVISIBLE);
+			
+			TextView tv = (TextView) findViewById(R.id.no_servers_added);
+			tv.setVisibility(View.VISIBLE);
+			
+			TextView tv2 = (TextView) findViewById(R.id.server_list_header);
+			tv2.setVisibility(View.INVISIBLE);
 			return;
 		}
 
@@ -53,7 +54,7 @@ public class ServerList extends Activity {
 
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, servers);
 
-		ListView lv = (ListView) findViewById(R.id.serverListView);
+		ListView lv = (ListView) findViewById(R.id.server_list);
 		lv.setAdapter(adapter);
 
 		final ListView llv = lv;

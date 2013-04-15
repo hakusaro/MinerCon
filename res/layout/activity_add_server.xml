@@ -9,6 +9,7 @@
     tools:context=".AddServerActivity" >
 
     <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -17,14 +18,21 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical" >
 
+        <TextView
+            android:id="@+id/textView1"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/server_add_header" />
+
         <EditText
             android:id="@+id/editTextServerName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/add_server_server_name_hint"
-            android:inputType="textNoSuggestions">
-			
+            android:inputType="textNoSuggestions" >
+
             <requestFocus />
         </EditText>
 
@@ -39,7 +47,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="@string/add_server_server_host_hint"
-                android:inputType="textNoSuggestions"/>
+                android:inputType="textNoSuggestions" />
 
             <EditText
                 android:id="@+id/editTextServerPort"
@@ -50,7 +58,6 @@
                 android:hint="@string/add_server_port_hint"
                 android:inputType="number"
                 android:text="@string/add_server_port_default" />
-
         </LinearLayout>
 
         <EditText
@@ -61,6 +68,20 @@
             android:hint="@string/add_server_password_hint"
             android:inputType="textPassword" />
 
+        <TextView
+            android:id="@+id/textView2"
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/server_add_help_header"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/server_add_help"
+            android:visibility="gone" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -37,4 +37,10 @@
 	<string name="server_added">Server added.</string>
 	<string name="error_npe_reinstall">NullPointerException during server store. Clear app data in Android application settings or reinstall.</string>
 	<string name="error_io_reinstall">IOException during server store. Clear app data in Android application settings or reinstall.</string>
+	<string name="server_add_header">Server Connection Settings</string>
+	<string name="server_list_header">Servers</string>
+	<string name="no_servers_added">No servers have been added. Please add one from the menu at the top.</string>
+	<string name="player_list_header">Online Players</string>
+	<string name="server_add_help_header">Help: Adding Servers</string>
+	<string name="server_add_help">Each server takes a <b>name</b>, <b>hostname or IP</b>, <b>rcon port</b>, and <b>rcon password.</b> The server name is just for identification on the server list. The hostname is the external IP. The RCON port and password match <b>rcon.port</b> and <b>rcon.password</b>, set in <b>server.properties</b> respectively. Finally, <b>enable-rcon</b> must be set to true, otherwise connections will be declined. If all settings given here are correct, verify that a firewall is not blocking connections to the server rcon port.</string>
 </resources>
