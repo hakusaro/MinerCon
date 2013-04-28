@@ -8,6 +8,9 @@ import me.shanked.nicatronTg.minercon.R;
 import me.shanked.nicatronTg.minercon.Server;
 import me.shanked.nicatronTg.minercon.StorageMaintainer;
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,7 +67,6 @@ public class ManageServer extends FragmentActivity implements
 
 		actionBar.setListNavigationCallbacks(new ArrayAdapter<String>(actionBar.getThemedContext(), android.R.layout.simple_list_item_1, android.R.id.text1, new String[] {
 				getString(R.string.manage_server_players),
-				getString(R.string.manage_server_properties),
 				getString(R.string.manage_server_console), }), this);
 
 		String serverName = (String) getIntent().getExtras().getString("serverName");
@@ -154,22 +157,22 @@ public class ManageServer extends FragmentActivity implements
 
 		@Override
 		public void onDestroy() {
-			destroyAllRunningTasks();
 			try {
 				rcon.close();
-			} catch (IOException e) {
+				destroyAllRunningTasks();
+			} catch (Exception e) {
 			}
 			super.onDestroy();
 		}
 
 		@Override
 		public void onDetach() {
-			destroyAllRunningTasks();
 			try {
 				rcon.close();
-			} catch (IOException e) {
+				destroyAllRunningTasks();
+			} catch (Exception e) {
 			}
-			super.onDetach();
+			super.onDestroy();
 		}
 
 		@Override
@@ -194,8 +197,8 @@ public class ManageServer extends FragmentActivity implements
 		@Override
 		public boolean onContextItemSelected(MenuItem item) {
 			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-			String playerName = ((TextView) info.targetView).getText().toString();
-
+			final String playerName = ((TextView) info.targetView).getText().toString();
+			LayoutInflater factory = LayoutInflater.from(this.getActivity());
 			switch (item.getItemId()) {
 			case R.id.op:
 				new GivePlayerOperator().execute(playerName);
@@ -206,12 +209,68 @@ public class ManageServer extends FragmentActivity implements
 				Toast.makeText(getActivity(), playerName + " is no longer an operator.", Toast.LENGTH_SHORT).show();
 				break;
 			case R.id.kick:
-				new KickPlayer().execute(playerName);
-				Toast.makeText(getActivity(), playerName + " was kicked.", Toast.LENGTH_SHORT).show();
+				factory = LayoutInflater.from(this.getActivity());
+				final View kickReasonTextEntry = factory.inflate(R.layout.dialog_kick_reason, null);
+				AlertDialog.Builder kickAlert = new AlertDialog.Builder(this.getActivity());
+				kickAlert.setTitle("Kick Details");
+				kickAlert.setMessage("Enter Kick Reason:");
+				kickAlert.setView(kickReasonTextEntry);
+				kickAlert.setPositiveButton("Kick Player", new OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						EditText eKickReason = (EditText) kickReasonTextEntry.findViewById(R.id.kick_reason);
+						String kickReason = "Kicked by an operator.";
+						
+						if (eKickReason.getText().toString().trim().length() != 0) {
+							kickReason = eKickReason.getText().toString();
+						}
+						
+						new KickPlayer().execute(playerName, kickReason);
+						Toast.makeText(getActivity(), playerName + " was kicked.", Toast.LENGTH_LONG).show();
+					}
+				});
+				kickAlert.setNegativeButton("Cancel", new OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Toast.makeText(getActivity(), "Kick aborted!", Toast.LENGTH_LONG).show();
+					}
+				});
+				kickAlert.show();
+				
 				break;
 			case R.id.ban:
-				new BanPlayer().execute(playerName);
-				Toast.makeText(getActivity(), playerName + " was banned.", Toast.LENGTH_SHORT).show();
+				factory = LayoutInflater.from(this.getActivity());
+				final View banReasonTextEntry = factory.inflate(R.layout.dialog_ban_reason, null);
+				AlertDialog.Builder banAlert = new AlertDialog.Builder(this.getActivity());
+				banAlert.setTitle("Ban Details");
+				banAlert.setMessage("Enter Ban Reason:");
+				banAlert.setView(banReasonTextEntry);
+				banAlert.setPositiveButton("Ban", new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						EditText eBanReason = (EditText) banReasonTextEntry.findViewById(R.id.ban_reason);
+						String banReason = "Banned by operator.";
+						if (eBanReason.getText().toString().trim().length() != 0) {
+							banReason = eBanReason.getText().toString().trim();
+						}
+						new BanPlayer().execute(playerName, banReason);
+						Toast.makeText(getActivity(), playerName + " was banned.", Toast.LENGTH_LONG).show();
+					}
+				});
+
+				banAlert.setNegativeButton("Cancel", new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						Toast.makeText(getActivity(), "Ban aborted!", Toast.LENGTH_SHORT).show();
+					}
+				});
+
+				banAlert.show();
+
 				break;
 			case R.id.clear_inventory:
 				new ClearInventory().execute(playerName);
@@ -240,7 +299,7 @@ public class ManageServer extends FragmentActivity implements
 
 			super.onActivityCreated(savedInstanceState);
 		}
-		
+
 		class ClearInventory extends AsyncTask<String, Void, Void> {
 
 			@Override
@@ -254,9 +313,9 @@ public class ManageServer extends FragmentActivity implements
 				}
 				return null;
 			}
-			
+
 		}
-		
+
 		class BanPlayer extends AsyncTask<String, Void, Void> {
 
 			@Override
@@ -265,7 +324,7 @@ public class ManageServer extends FragmentActivity implements
 					if (rcon == null || rcon.isShutdown()) {
 						rcon = new RCon(server.getHost(), server.getPort(), server.getPassword().toCharArray());
 					}
-					rcon.ban(params[0]);
+					rcon.banWithReason(params[0], params[1]);
 				} catch (Exception e) {
 				}
 				return null;
@@ -276,7 +335,7 @@ public class ManageServer extends FragmentActivity implements
 				super.onPostExecute(result);
 				new GetPlayerList().execute(server);
 			}
-			
+
 		}
 
 		class KickPlayer extends AsyncTask<String, Void, Void> {
@@ -287,7 +346,7 @@ public class ManageServer extends FragmentActivity implements
 					if (rcon == null || rcon.isShutdown()) {
 						rcon = new RCon(server.getHost(), server.getPort(), server.getPassword().toCharArray());
 					}
-					rcon.kick(params[0]);
+					rcon.kickWithReason(params[0], params[1]);
 				} catch (Exception e) {
 				}
 				return null;

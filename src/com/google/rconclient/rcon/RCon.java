@@ -117,6 +117,11 @@ public class RCon {
 		final String response = send(sb.toString());
 		assert "".equals(response);
 	}
+	
+	public void banWithReason(final String player, final String reason) throws IOException, AuthenticationException {
+		final String response = send("ban " + player + " " + reason);
+		assert "".equals(response);
+	}
 
 	/**
 	 * Blacklists a host so that all subsequent connections from it are
@@ -327,6 +332,11 @@ public class RCon {
 		sb.append("kick");
 		sb.append(' ').append(player);
 		final String response = send(sb.toString());
+		assert "".equals(response);
+	}
+	
+	public void kickWithReason(final String player, final String reason) throws AuthenticationException, IOException {
+		final String response = send("kick " + player + " " + reason);
 		assert "".equals(response);
 	}
 
