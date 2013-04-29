@@ -815,7 +815,7 @@ public class RCon {
 	}
 
 	/**
-	 * Send a command to MineCraft and return is't response. This method will
+	 * Send a command to MineCraft and return its' response. This method will
 	 * always send the command using the COMMAND_TYPE packet type.
 	 * 
 	 * @param payload
@@ -826,7 +826,7 @@ public class RCon {
 	 * @throws IncorrectRequestIdException
 	 *             The request id was not as expected.
 	 */
-	private String send(final String payload) throws IOException, IncorrectRequestIdException {
+	public String send(final String payload) throws IOException, IncorrectRequestIdException {
 		final String response = send(COMMAND_TYPE, payload);
 		return response;
 	}

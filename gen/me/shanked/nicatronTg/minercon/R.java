@@ -25,33 +25,37 @@ public final class R {
         public static final int ic_action_cancel=0x7f020001;
         public static final int ic_action_reload=0x7f020002;
         public static final int ic_action_tick=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
+        public static final int ic_action_users=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
     }
     public static final class id {
-        public static final int action_add_server=0x7f080014;
-        public static final int action_delete_storage=0x7f080016;
-        public static final int action_settings=0x7f080015;
-        public static final int add_server=0x7f080011;
-        public static final int ban=0x7f080018;
+        public static final int action_add_server=0x7f080017;
+        public static final int action_delete_storage=0x7f080019;
+        public static final int action_settings=0x7f080018;
+        public static final int add_server=0x7f080014;
+        public static final int ban=0x7f08001b;
         public static final int ban_reason=0x7f08000c;
-        public static final int cancel_add_server=0x7f080012;
-        public static final int clear_inventory=0x7f08001c;
+        public static final int cancel_add_server=0x7f080015;
+        public static final int clear_inventory=0x7f08001f;
+        public static final int console_command=0x7f080013;
         public static final int container=0x7f08000b;
-        public static final int deop=0x7f08001b;
+        public static final int deop=0x7f08001e;
         public static final int editTextServerHost=0x7f080003;
         public static final int editTextServerName=0x7f080002;
         public static final int editTextServerPassword=0x7f080005;
         public static final int editTextServerPort=0x7f080004;
-        public static final int give_item=0x7f080019;
-        public static final int kick=0x7f080017;
+        public static final int give_item=0x7f08001c;
+        public static final int kick=0x7f08001a;
         public static final int kick_reason=0x7f08000d;
         public static final int linearLayout1=0x7f080000;
         public static final int no_players_online=0x7f080010;
         public static final int no_servers_added=0x7f08000a;
-        public static final int op=0x7f08001a;
+        public static final int op=0x7f08001d;
         public static final int player_list_fragment=0x7f08000e;
         public static final int player_list_header=0x7f08000f;
-        public static final int refresh_player_list=0x7f080013;
+        public static final int refresh_player_list=0x7f080016;
+        public static final int scrollView1=0x7f080011;
+        public static final int server_console=0x7f080012;
         public static final int server_list=0x7f080009;
         public static final int server_list_header=0x7f080008;
         public static final int textView1=0x7f080001;
@@ -65,6 +69,7 @@ public final class R {
         public static final int dialog_ban_reason=0x7f030003;
         public static final int dialog_kick_reason=0x7f030004;
         public static final int fragment_current_players=0x7f030005;
+        public static final int fragment_server_console=0x7f030006;
     }
     public static final class menu {
         public static final int add_server=0x7f070000;
@@ -88,6 +93,7 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int ban_player=0x7f050016;
         public static final int clear_inventory=0x7f05001a;
+        public static final int console_command_hint=0x7f05002c;
         public static final int deop_player=0x7f050019;
         public static final int dialog_ban_reason_hint=0x7f05002a;
         public static final int dialog_kick_hint=0x7f05002b;
@@ -114,6 +120,7 @@ public final class R {
         public static final int server_add_help=0x7f050029;
         public static final int server_add_help_header=0x7f050028;
         public static final int server_added=0x7f050021;
+        public static final int server_console_ready=0x7f05002d;
         public static final int server_list_header=0x7f050025;
         public static final int title_activity_add_server=0x7f050003;
         public static final int title_activity_manage_server=0x7f050011;

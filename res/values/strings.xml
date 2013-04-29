@@ -45,4 +45,6 @@
 	<string name="server_add_help">Each server takes a <b>name</b>, <b>hostname or IP</b>, <b>rcon port</b>, and <b>rcon password.</b> The server name is just for identification on the server list. The hostname is the external IP. The RCON port and password match <b>rcon.port</b> and <b>rcon.password</b>, set in <b>server.properties</b> respectively. Finally, <b>enable-rcon</b> must be set to true, otherwise connections will be declined. If all settings given here are correct, verify that a firewall is not blocking connections to the server rcon port.</string>
 	<string name="dialog_ban_reason_hint">Banned by an operator.</string>
 	<string name="dialog_kick_hint">Kicked by an operator.</string>
+	<string name="console_command_hint">Run a command…</string>
+	<string name="server_console_ready">Ready.\nIssue a server command. Its output will be displayed here.\n</string>
 </resources>

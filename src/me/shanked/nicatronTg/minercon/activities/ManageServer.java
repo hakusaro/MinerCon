@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,13 +28,16 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.google.rconclient.rcon.AuthenticationException;
@@ -119,6 +123,11 @@ public class ManageServer extends FragmentActivity implements
 			getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
 		}
 
+		if (position == 1) {
+			Fragment fragment = new ServerConsoleFragment();
+			getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+		}
+
 		return true;
 	}
 
@@ -126,6 +135,103 @@ public class ManageServer extends FragmentActivity implements
 		for (AsyncTask<?, ?, ?> asyncTask : runningAsyncTasks) {
 			asyncTask.cancel(true);
 		}
+	}
+
+	public static class ServerConsoleFragment extends Fragment {
+		public ServerConsoleFragment() {
+
+		}
+
+		@Override
+		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+			// TODO Auto-generated method stub
+			super.onCreateOptionsMenu(menu, inflater);
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			setHasOptionsMenu(true);
+			View root = inflater.inflate(R.layout.fragment_server_console, container, false);
+
+			EditText editText = (EditText) root.findViewById(R.id.console_command);
+			editText.setOnEditorActionListener(new OnEditorActionListener() {
+
+				@Override
+				public boolean onEditorAction(TextView v, int actionId,
+						KeyEvent event) {
+					if (actionId == EditorInfo.IME_ACTION_SEND) {
+						String consoleCommand = v.getText().toString().trim();
+						if (consoleCommand.length() != 0) {
+							new ConsoleCommand().execute(consoleCommand);
+							TextView tv = (TextView) getActivity().findViewById(R.id.server_console);
+							String text = tv.getText().toString();
+							tv.setText(text + "\n" + "> " + v.getText().toString().trim());
+							
+						}
+					}
+					return true;
+				}
+			});
+
+			return root;
+		}
+
+		@Override
+		public void onDestroy() {
+			try {
+				rcon.close();
+				destroyAllRunningTasks();
+			} catch (Exception e) {
+			}
+			super.onDestroy();
+		}
+
+		@Override
+		public void onDetach() {
+			try {
+				rcon.close();
+				destroyAllRunningTasks();
+			} catch (Exception e) {
+			}
+			super.onDestroy();
+		}
+		
+		class ConsoleCommand extends AsyncTask<String, Void, String> {
+
+			@Override
+			protected String doInBackground(String... params) {
+				String consoleCommandResponse = "";
+				try {
+					if (rcon == null || rcon.isShutdown()) {
+						rcon = new RCon(server.getHost(), server.getPort(), server.getPassword().toCharArray());
+					}
+					consoleCommandResponse = rcon.send(params[0]);
+				} catch (Exception e) {
+				}
+				return consoleCommandResponse;
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				TextView tv = (TextView) getActivity().findViewById(R.id.server_console);
+				String text = tv.getText().toString();
+				tv.setText(text + "\n" + result);
+				final ScrollView sv = (ScrollView) getActivity().findViewById(R.id.scrollView1);
+				sv.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						sv.fullScroll(View.FOCUS_DOWN);
+					}
+				});
+				EditText et = (EditText) getActivity().findViewById(R.id.console_command);
+				et.setText("");
+				super.onPostExecute(result);
+			}
+
+		}
+
 	}
 
 	public static class CurrentPlayersFragment extends Fragment {
@@ -216,29 +322,29 @@ public class ManageServer extends FragmentActivity implements
 				kickAlert.setMessage("Enter Kick Reason:");
 				kickAlert.setView(kickReasonTextEntry);
 				kickAlert.setPositiveButton("Kick Player", new OnClickListener() {
-					
+
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						EditText eKickReason = (EditText) kickReasonTextEntry.findViewById(R.id.kick_reason);
 						String kickReason = "Kicked by an operator.";
-						
+
 						if (eKickReason.getText().toString().trim().length() != 0) {
 							kickReason = eKickReason.getText().toString();
 						}
-						
+
 						new KickPlayer().execute(playerName, kickReason);
 						Toast.makeText(getActivity(), playerName + " was kicked.", Toast.LENGTH_LONG).show();
 					}
 				});
 				kickAlert.setNegativeButton("Cancel", new OnClickListener() {
-					
+
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						Toast.makeText(getActivity(), "Kick aborted!", Toast.LENGTH_LONG).show();
 					}
 				});
 				kickAlert.show();
-				
+
 				break;
 			case R.id.ban:
 				factory = LayoutInflater.from(this.getActivity());

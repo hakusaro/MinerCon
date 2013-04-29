@@ -35,7 +35,8 @@
         <activity
             android:name="me.shanked.nicatronTg.minercon.activities.ManageServer"
             android:label="@string/title_activity_manage_server"
-            android:parentActivityName="me.shanked.nicatronTg.minercon.activities.ServerList" >
+            android:parentActivityName="me.shanked.nicatronTg.minercon.activities.ServerList"
+            android:windowSoftInputMode="adjustResize" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="me.shanked.nicatronTg.minercon.MainActivity" />
