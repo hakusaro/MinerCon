@@ -105,9 +105,5 @@ public class AddServerActivity extends Activity {
 		
 	}
 	
-	public void onCancelButtonClick(MenuItem m) {
-		Intent i = new Intent(this, ServerList.class);
-		startActivity(i);
-	}
 
 }
