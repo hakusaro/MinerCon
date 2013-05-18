@@ -28,10 +28,10 @@
     <string name="give_op">Assign Server Operator</string>
     <string name="deop_player">Revoke Server Operator</string>
     <string name="clear_inventory">Clear Inventory</string>
-    <string name="error_no_server_name">No server name specificed. Enter a valid one and try again.</string>
-	<string name="error_no_server_host">No server host specificed. Enter a valid one and try again.</string>
-	<string name="error_no_server_port">No server port specificed. Enter a valid one and try again.</string>
-	<string name="error_no_server_password">No server password specificed. Enter a valid one and try again.</string>
+    <string name="error_no_server_name">No server name specified. Enter a valid one and try again.</string>
+	<string name="error_no_server_host">No server host specified. Enter a valid one and try again.</string>
+	<string name="error_no_server_port">No server port specified. Enter a valid one and try again.</string>
+	<string name="error_no_server_password">No server password specified. Enter a valid one and try again.</string>
 	<string name="error_invalid_server_port">Invalid server port specified. Valid port must be a numerical value (usually 25575).</string>
 	<string name="error_duplicate_server_name">Invalid server name. That particular one already exists.</string>
 	<string name="server_added">Server added.</string>
@@ -47,4 +47,5 @@
 	<string name="dialog_kick_hint">Kicked by an operator.</string>
 	<string name="console_command_hint">Run a command…</string>
 	<string name="server_console_ready">Ready.\nIssue a server command. Its output will be displayed here.\n</string>
+    <string name="error_unable_to_authenticate">Unable to authenticate with server. Please verify that a connection is available and the server's connection information is correct.</string>
 </resources>

@@ -73,7 +73,7 @@ public class ManageServer extends FragmentActivity implements
 				getString(R.string.manage_server_players),
 				getString(R.string.manage_server_console), }), this);
 
-		String serverName = (String) getIntent().getExtras().getString("serverName");
+		String serverName = getIntent().getExtras().getString("serverName");
 
 		StorageMaintainer sm = new StorageMaintainer(this, "servers.json");
 		try {
@@ -183,6 +183,7 @@ public class ManageServer extends FragmentActivity implements
 				rcon.close();
 				destroyAllRunningTasks();
 			} catch (Exception e) {
+                e.printStackTrace();
 			}
 			super.onDestroy();
 		}
@@ -193,6 +194,7 @@ public class ManageServer extends FragmentActivity implements
 				rcon.close();
 				destroyAllRunningTasks();
 			} catch (Exception e) {
+                e.printStackTrace();
 			}
 			super.onDestroy();
 		}
@@ -208,6 +210,7 @@ public class ManageServer extends FragmentActivity implements
 					}
 					consoleCommandResponse = rcon.send(params[0]);
 				} catch (Exception e) {
+                    e.printStackTrace();
 				}
 				return consoleCommandResponse;
 			}
@@ -225,7 +228,7 @@ public class ManageServer extends FragmentActivity implements
 						sv.fullScroll(View.FOCUS_DOWN);
 					}
 				});
-				EditText et = (EditText) getActivity().findViewById(R.id.console_command);
+                EditText et = (EditText) getActivity().findViewById(R.id.console_command);
 				et.setText("");
 				super.onPostExecute(result);
 			}
@@ -267,6 +270,7 @@ public class ManageServer extends FragmentActivity implements
 				rcon.close();
 				destroyAllRunningTasks();
 			} catch (Exception e) {
+                e.printStackTrace();
 			}
 			super.onDestroy();
 		}
@@ -277,6 +281,7 @@ public class ManageServer extends FragmentActivity implements
 				rcon.close();
 				destroyAllRunningTasks();
 			} catch (Exception e) {
+                e.printStackTrace();
 			}
 			super.onDestroy();
 		}
@@ -304,8 +309,9 @@ public class ManageServer extends FragmentActivity implements
 		public boolean onContextItemSelected(MenuItem item) {
 			AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 			final String playerName = ((TextView) info.targetView).getText().toString();
-			LayoutInflater factory = LayoutInflater.from(this.getActivity());
-			switch (item.getItemId()) {
+			LayoutInflater factory;
+            LayoutInflater.from(this.getActivity());
+            switch (item.getItemId()) {
 			case R.id.op:
 				new GivePlayerOperator().execute(playerName);
 				Toast.makeText(getActivity(), playerName + " is now an operator.", Toast.LENGTH_SHORT).show();
@@ -416,6 +422,7 @@ public class ManageServer extends FragmentActivity implements
 					}
 					rcon.clearInventory(params[0]);
 				} catch (Exception e) {
+                    e.printStackTrace();
 				}
 				return null;
 			}
@@ -432,6 +439,7 @@ public class ManageServer extends FragmentActivity implements
 					}
 					rcon.banWithReason(params[0], params[1]);
 				} catch (Exception e) {
+                    e.printStackTrace();
 				}
 				return null;
 			}
@@ -454,6 +462,7 @@ public class ManageServer extends FragmentActivity implements
 					}
 					rcon.kickWithReason(params[0], params[1]);
 				} catch (Exception e) {
+                    e.printStackTrace();
 				}
 				return null;
 			}
@@ -476,6 +485,7 @@ public class ManageServer extends FragmentActivity implements
 					}
 					rcon.deOp(params[0]);
 				} catch (Exception e) {
+                    e.printStackTrace();
 				}
 				return null;
 			}
@@ -492,6 +502,7 @@ public class ManageServer extends FragmentActivity implements
 					}
 					rcon.op(arg0[0]);
 				} catch (Exception e) {
+                    e.printStackTrace();
 				}
 				return null;
 			}
@@ -502,7 +513,7 @@ public class ManageServer extends FragmentActivity implements
 
 			@Override
 			protected String[] doInBackground(Server... params) {
-				String players[] = null;
+				String players[];
 				Server server = params[0];
 				try {
 					if (rcon == null || rcon.isShutdown()) {
@@ -521,7 +532,7 @@ public class ManageServer extends FragmentActivity implements
 			protected void onPostExecute(String[] result) {
 
 				if (result == null) {
-					Toast.makeText(CurrentPlayersFragment.this.getActivity(), "Unable to authenticate with server. Please verify that a connection is available and the server's connection information is correct.", Toast.LENGTH_LONG).show();
+					Toast.makeText(CurrentPlayersFragment.this.getActivity(), R.string.error_unable_to_authenticate, Toast.LENGTH_LONG).show();
 					Intent i = new Intent(CurrentPlayersFragment.this.getActivity(), ServerList.class);
 					startActivity(i);
 					return;
