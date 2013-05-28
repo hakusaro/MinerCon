@@ -46,6 +46,11 @@ public class AddServerActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+    public void onCancelButtonClick(MenuItem m) {
+        Intent i = new Intent(this, ServerList.class);
+        startActivity(i);
+    }
+
 	public void onAddButtonClick(MenuItem m) {
 		EditText _serverName = (EditText) findViewById(R.id.editTextServerName);
 		EditText _serverHost = (EditText) findViewById(R.id.editTextServerHost);

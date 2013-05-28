@@ -47,5 +47,5 @@
 	<string name="dialog_kick_hint">Kicked by an operator.</string>
 	<string name="console_command_hint">Run a command…</string>
 	<string name="server_console_ready">Ready.\nIssue a server command. Its output will be displayed here.\n</string>
-    <string name="error_unable_to_authenticate">Unable to authenticate with server. Please verify that a connection is available and the server's connection information is correct.</string>
+    <string name="error_unable_to_authenticate">Unable to authenticate with server. Please verify that a connection is available and the server\'s connection information is correct.</string>
 </resources>
